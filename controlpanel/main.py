@@ -1,13 +1,13 @@
-from tkinter import Tk
 import creator_ui
+import features
 # Parte gráfica del programa
 
 def main():
 
-    ui_window = Tk()
-    creator_ui.generate_selector_ui(ui_window)
+    appData = features.App()
+    creator_ui.generate_selector_ui(appData)
 
-    ui_window.mainloop()
+    appData.ui_window.mainloop()
 
     # Save number of words chosen
 
