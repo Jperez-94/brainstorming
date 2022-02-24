@@ -8,10 +8,10 @@ def main():
     creator_ui.generate_selector_ui(appData)
 
     appData.ui_window.mainloop()
+    
+    creator_ui.generate_status_panel(appData)
 
-    # Save number of words chosen
-
-    # Clean window
+    appData.ui_window.mainloop()
 
     # Generate new window using saved number as parameter
 
