@@ -15,8 +15,6 @@ def main():
 
     appData.ui_window.mainloop()
 
-    # Generate new window using saved number as parameter
-
 
 if __name__ == '__main__':
     main()

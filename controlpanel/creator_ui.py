@@ -13,28 +13,28 @@ def generate_selector_ui(app):
 
     bt1 = Button(
         app.ui_window,
-        command = lambda: features.set_wordSelection(app, 1),
+        command = lambda: app.set_wordSelection(1),
         text= button_cfg.BUTTON_1_NAME,
         width = button_cfg.WIDTH,
         height= button_cfg.HEIGHT)
 
     bt2 = Button(
         app.ui_window,
-        command = lambda: features.set_wordSelection(app, 2),
+        command = lambda: app.set_wordSelection(2),
         text= button_cfg.BUTTON_2_NAME,
         width = button_cfg.WIDTH,
         height= button_cfg.HEIGHT)
 
     bt3 = Button(
         app.ui_window,
-        command = lambda: features.set_wordSelection(app, 3),
+        command = lambda: app.set_wordSelection(3),
         text= button_cfg.BUTTON_3_NAME,
         width = button_cfg.WIDTH,
         height= button_cfg.HEIGHT)
 
     bt4 = Button(
         app.ui_window,
-        command = lambda: features.set_wordSelection(app, 4),
+        command = lambda: app.set_wordSelection(4),
         text= button_cfg.BUTTON_4_NAME,
         width = button_cfg.WIDTH,
         height= button_cfg.HEIGHT)
@@ -62,6 +62,14 @@ def generate_status_panel(app):
         app.ui_items.append(
             Entry()
         )
+    
+    app.ui_items.append(
+        Button(text= button_cfg.BUTTON_REFRESH_NAME, command = lambda: app.refresh_panel())
+    )
+
+    app.ui_items.append(
+        Label(text = '')
+    )
 
     numOfServicies = app.numOfWords *32
     for _ in range(numOfServicies):
@@ -72,8 +80,11 @@ def generate_status_panel(app):
     counter = 0
     for column in range(app.numOfWords):
         app.ui_items[column].grid(row = 0, column = column)
-        for row in range(len(app.ui_items) - app.numOfWords):
-            if (row % 32) == 0 and row != 0:
+        for row in range(len(app.ui_items) - app.numOfWords - 1):
+            if ((row) % 32) == 0 and row != 0:
                 counter += 1
                 break
-            app.ui_items[row + app.numOfWords + counter * 32].grid(row = row + 1, column = column)
+            app.ui_items[row + app.numOfWords + 2 + counter * 32].grid(row = row + 1, column = column)
+
+    app.ui_items[app.numOfWords].grid(row = 0, column = app.numOfWords + 1)
+    app.ui_items[app.numOfWords + 1].grid(row = 0, column =  app.numOfWords + 2)
