@@ -1,7 +1,6 @@
 from tkinter import Button, Label, Entry
 from config.ui_Config import  *
 from config.words_cfg import *
-import features
 
 def generate_selector_ui(app):
     app.ui_window.title(ui_config.SELECTOR_TITLE)
@@ -54,7 +53,11 @@ def generate_selector_ui(app):
 def generate_status_panel(app):
     app.ui_window.title(ui_config.PANEL_TITLE)
 
-    geometry = f"{250 * app.numOfWords}x{800}"
+    if app.numOfWords == 1:
+        geometry = "300x800"
+    else:
+        geometry = f"{200 * app.numOfWords}x{800}"
+
     app.ui_window.geometry(geometry)
     app.ui_window.resizable(0,0)
     app.ui_window.config(
@@ -93,14 +96,15 @@ def generate_status_panel(app):
     # Add columns form by Entry and the services of the word
     counter = 0
     for column in range(app.numOfWords):
-        app.ui_items[column].grid(row = 0, column = column)
+        app.ui_items[column].grid(padx = ui_config.ITEM_PADX, row = 0, column = column)
         for row in range(len(app.ui_items) - app.numOfWords - 1):
             if ((row) % service_cfg.WORD_LENGTH) == 0 and row != 0:
                 counter += 1
                 break
+            
             app.ui_items[row + app.noServiceItems + counter * service_cfg.WORD_LENGTH].grid(row = row + 1, column = column)
 
     # Add Refresh button to the grid
-    app.ui_items[app.noServiceItems - 2].grid(row = 0, column = app.noServiceItems - 1)
+    app.ui_items[app.noServiceItems - 2].grid(padx = ui_config.ITEM_PADX, row = 0, column = app.noServiceItems - 1)
     # Add Label message error to the grid
-    app.ui_items[app.noServiceItems - 1].grid(row = 1, column =  app.noServiceItems - 1)
+    app.ui_items[app.noServiceItems - 1].grid(padx = ui_config.ITEM_PADX, row = 1, column =  app.noServiceItems - 1)

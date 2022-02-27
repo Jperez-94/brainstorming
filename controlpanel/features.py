@@ -57,9 +57,11 @@ class App():
         for word in self.words:
             for bit in range(32):
                 if (word >> bit) & 1:
-                    self.ui_items[bit + self.noServiceItems + counter * service_cfg.WORD_LENGTH].config(fg = '#DC0000')
+                    self.ui_items[bit + self.noServiceItems + counter * service_cfg.WORD_LENGTH].config(
+                        fg = service_cfg.BIT_1_COLOR, font = service_cfg.BIT_1_FONT)
                 else:
-                    self.ui_items[bit + self.noServiceItems + counter * service_cfg.WORD_LENGTH].config(fg = '#00920D')
+                    self.ui_items[bit + self.noServiceItems + counter * service_cfg.WORD_LENGTH].config(
+                        fg = service_cfg.BIT_0_COLOR, font = service_cfg.BIT_0_FONT)
             
             counter += 1
         

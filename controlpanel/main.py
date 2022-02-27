@@ -1,7 +1,6 @@
 import creator_ui
 import features
 from tkinter import Tk
-# Parte gráfica del programa
 
 def main():
 

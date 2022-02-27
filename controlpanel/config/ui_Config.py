@@ -7,6 +7,7 @@ class ui_config:
     # Status panel config
     PANEL_TITLE = 'Status Panel'
     PANEL_DEFAULT_GEOMETRY = '250x800'
+    ITEM_PADX = 15
 
 class button_cfg:
     # BUTTONs name
