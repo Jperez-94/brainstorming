@@ -1,10 +1,12 @@
 from tkinter import Tk
+from config.words_cfg import *
 
 
 class App():
     numOfWords = 0
     ui_window = Tk()
     ui_items = []
+    noServiceItems = 0
     words = []
     flag_warning = False
     error_msg = ''
@@ -20,6 +22,7 @@ class App():
             item.destroy()
         
         self.ui_items = []
+        self.noServiceItems = 0
 
     def destroy_ui_window(self) -> None:
         self.ui_window.destroy()
@@ -54,9 +57,9 @@ class App():
         for word in self.words:
             for bit in range(32):
                 if (word >> bit) & 1:
-                    self.ui_items[bit + self.numOfWords + 2 + counter * 32].config(fg = '#DC0000')
+                    self.ui_items[bit + self.noServiceItems + counter * service_cfg.WORD_LENGTH].config(fg = '#DC0000')
                 else:
-                    self.ui_items[bit + self.numOfWords + 2 + counter * 32].config(fg = '#00920D')
+                    self.ui_items[bit + self.noServiceItems + counter * service_cfg.WORD_LENGTH].config(fg = '#00920D')
             
             counter += 1
         

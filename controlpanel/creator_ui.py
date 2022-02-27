@@ -43,6 +43,7 @@ def generate_selector_ui(app):
     app.ui_items.append(bt2)
     app.ui_items.append(bt3)
     app.ui_items.append(bt4)
+    app.noServiceItems += 4
 
     bt1.pack(padx= button_cfg.BUTTON_1_PADX, pady= button_cfg.BUTTON_1_PADY)
     bt2.pack(padx= button_cfg.BUTTON_2_PADX, pady= button_cfg.BUTTON_2_PADY)
@@ -52,39 +53,54 @@ def generate_selector_ui(app):
 
 def generate_status_panel(app):
     app.ui_window.title(ui_config.PANEL_TITLE)
-    app.ui_window.geometry(ui_config.PANEL_GEOMETRY)
+
+    geometry = f"{250 * app.numOfWords}x{800}"
+    app.ui_window.geometry(geometry)
     app.ui_window.resizable(0,0)
     app.ui_window.config(
         bg = '#C5C5C5'
     )
 
+    # Entry boxes, one to each word. Position in the array ui_items[0:(numOfWords -1)]
     for _ in range(app.numOfWords):
         app.ui_items.append(
             Entry()
         )
+
+    app.noServiceItems += app.numOfWords
     
+    # Button to refresh the panel. Position in the array ui_items[numOfWords]
     app.ui_items.append(
         Button(text= button_cfg.BUTTON_REFRESH_NAME, command = lambda: app.refresh_panel())
     )
 
+    app.noServiceItems += 1
+
+    # Error message label. Position in the array ui_items[numOfWords + 1]
     app.ui_items.append(
         Label(text = '')
     )
 
-    numOfServicies = app.numOfWords *32
+    app.noServiceItems += 1
+
+    # Label generator, one label to each enable service
+    numOfServicies = app.numOfWords * service_cfg.WORD_LENGTH
     for _ in range(numOfServicies):
         app.ui_items.append(
             Label(text= service_cfg.serviceNameList[_])
         )
     
+    # Add columns form by Entry and the services of the word
     counter = 0
     for column in range(app.numOfWords):
         app.ui_items[column].grid(row = 0, column = column)
         for row in range(len(app.ui_items) - app.numOfWords - 1):
-            if ((row) % 32) == 0 and row != 0:
+            if ((row) % service_cfg.WORD_LENGTH) == 0 and row != 0:
                 counter += 1
                 break
-            app.ui_items[row + app.numOfWords + 2 + counter * 32].grid(row = row + 1, column = column)
+            app.ui_items[row + app.noServiceItems + counter * service_cfg.WORD_LENGTH].grid(row = row + 1, column = column)
 
-    app.ui_items[app.numOfWords].grid(row = 0, column = app.numOfWords + 1)
-    app.ui_items[app.numOfWords + 1].grid(row = 0, column =  app.numOfWords + 2)
+    # Add Refresh button to the grid
+    app.ui_items[app.noServiceItems - 2].grid(row = 0, column = app.noServiceItems - 1)
+    # Add Label message error to the grid
+    app.ui_items[app.noServiceItems - 1].grid(row = 1, column =  app.noServiceItems - 1)

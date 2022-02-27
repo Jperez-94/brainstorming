@@ -1,6 +1,7 @@
 
 class service_cfg():
 
+    WORD_LENGTH = 32
     # Word 0
     SERVICE_0 = 'Bit servicio 0'
     SERVICE_1 = 'Bit servicio 1'

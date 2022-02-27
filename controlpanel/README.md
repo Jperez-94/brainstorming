@@ -6,7 +6,7 @@ General control panel based on Tkinter. The information shown will be a graphic 
 
 ## ToDo
 
- + Simplify item index in the ui_items array to make easier the access to them
+ + Simplify item index in the ui_items array to make easier the access to them -> Done
  + Add a flag to disable part of a word
  + Fix UI visual presentation
 
