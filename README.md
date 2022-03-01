@@ -21,8 +21,8 @@ Stay creative and lets work!
 
 ## Active projects
 
-- Status words Panel
 
 ## Releases
 
+- Status words Panel v1.0.0
 
