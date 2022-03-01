@@ -1,4 +1,7 @@
 
+# Author: Jperez-94
+# Version: v1.0.0
+
 class ui_config:
     # Initial window config
     SELECTOR_TITLE = 'Configuration'
@@ -10,7 +13,7 @@ class ui_config:
     ITEM_PADX = 15
 
 class button_cfg:
-    # BUTTONs name
+    # Buttons name
     BUTTON_1_NAME = '1 WORD'
     BUTTON_2_NAME = '2 WORDS'
     BUTTON_3_NAME = '3 WORDS'
@@ -33,6 +36,6 @@ class button_cfg:
     WIDTH = 10
     HEIGHT = 3
 
-    # BUTTONs appereance
+    # Buttons appereance
     FONT_SIZE = 30
     FONT_FAMILY = 'Arial'

@@ -2,7 +2,11 @@ from tkinter import Button, Label, Entry
 from config.ui_Config import  *
 from config.words_cfg import *
 
-def generate_selector_ui(app):
+# Author: Jperez-94
+# Version: v1.0.0
+
+
+def generate_selector_ui(app) -> None:
     app.ui_window.title(ui_config.SELECTOR_TITLE)
     app.ui_window.geometry(ui_config.SELECTOR_GEOMETRY)
     app.ui_window.resizable(0,0)
@@ -50,13 +54,13 @@ def generate_selector_ui(app):
     bt4.pack(padx= button_cfg.BUTTON_4_PADX, pady= button_cfg.BUTTON_4_PADY)
 
 
-def generate_status_panel(app):
+def generate_status_panel(app) -> None:
     app.ui_window.title(ui_config.PANEL_TITLE)
 
     if app.numOfWords == 1:
         geometry = "300x800"
     else:
-        geometry = f"{200 * app.numOfWords}x{800}"
+        geometry = f"{200 * app.numOfWords}x800"
 
     app.ui_window.geometry(geometry)
     app.ui_window.resizable(0,0)

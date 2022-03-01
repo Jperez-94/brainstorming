@@ -1,14 +1,23 @@
 from tkinter import Tk
 from config.words_cfg import *
 
+# Author: Jperez-94
+# Version: v1.0.0
 
 class App():
+    # Number of words selected
     numOfWords = 0
+    # Instances Tkinter object
     ui_window = Tk()
+    # Items added to Tkinter object related to services
     ui_items = []
+    # Items added to Tkinter object not related to services
     noServiceItems = 0
+    # Words inserted throught UI
     words = []
+    # Flag to indicate something worked wrong
     flag_warning = False
+    # Error message
     error_msg = ''
 
     def set_wordSelection(self, button_id) -> None:
@@ -16,7 +25,6 @@ class App():
         self.destroy_all_items()
         self.destroy_ui_window()
         
-
     def destroy_all_items(self) -> None:
         for item in self.ui_items:
             item.destroy()
@@ -27,7 +35,7 @@ class App():
     def destroy_ui_window(self) -> None:
         self.ui_window.destroy()
 
-    def getAndCheckWords(self):
+    def getAndCheckWords(self) -> None:
         for _ in range(self.numOfWords):
             try:
                 word = int(self.ui_items[_].get())
@@ -43,7 +51,7 @@ class App():
             
             self.words.append(word)
 
-    def refresh_panel(self):
+    def refresh_panel(self) -> None:
         self.ui_items[self.numOfWords + 1].config(text = '')
         self.getAndCheckWords()
 

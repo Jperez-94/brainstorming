@@ -1,13 +1,17 @@
 from tkinter import font
 
+# Author: Jperez-94
+# Version: v1.0.0
 
 class service_cfg():
 
+    # Service visual configuration
     WORD_LENGTH = 32
     BIT_1_COLOR = '#DC0000'
     BIT_0_COLOR = '#00920D'
     BIT_1_FONT = ('Arial', 12)
     BIT_0_FONT = ('Arial', 10)
+
     # Word 0
     SERVICE_0 = 'Bit servicio 0'
     SERVICE_1 = 'Bit servicio 1'
