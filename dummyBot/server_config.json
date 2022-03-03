@@ -1,0 +1,23 @@
+{
+    "TextChannels": {
+        "banana-messages": {
+            "name": "banana-messages",
+            "id": "",
+            "type": "text"
+        }
+    },
+    "Members": {
+        "Jusepo": {
+            "name": "Jusepo",
+            "id": "",
+            "role": ""
+        }
+    },
+    "VoiceChannels": {
+        "Welcome banana!": {
+            "name": "Welcome banana!",
+            "id": "",
+            "type": "text"
+        }
+    }
+}
