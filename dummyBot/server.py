@@ -1,4 +1,3 @@
-from http import server
 import json
 
 class ServerCfg():
@@ -23,7 +22,7 @@ class ServerCfg():
     def update_json(self):
         self.get_TextChannels_id()
         self.get_VoiceChannels_id()
-        self.get_Members_id()
+        self.get_server_Members()
 
         with open(self.server._json_filepath, 'w') as file:
             json.dump(self._data_json, file, indent= 4)
@@ -59,18 +58,21 @@ class ServerCfg():
             for json_channel in self._data_json["VoiceChannels"]:
                 self._data_json['VoiceChannels'][json_channel]['id'] = server_channel.id
     
-    def get_Members_id(self):
+    # Get all members in the server when the Bot has admin permission
+    def get_server_Members(self):
         for server_member in self.client.get_all_members():
-            # if (server_channel.name in self.TextChannels) is False:
-            #     self._data_json['TextChannels'].append({
-            #         "channel": {
-            #             "name": server_channel.name,
-            #             "id": ""
-            #         }
-            #     }
-            #     )
-            for json_member in self._data_json["Members"]:
-                self._data_json['Members'][json_member]['id'] = server_member.id
-
+            self._data_json['Members'][server_member.name] = {}
+            self._data_json['Members'][server_member.name]["name"] = server_member.name
+            self._data_json['Members'][server_member.name]["id"] = server_member.id
+        
+    def add_Member(self, new_member):
+        if new_member[0] in self._data_json['Members']:
+            return False
+        else:
+            self._data_json['Members'][new_member[0]] = {}
+            self._data_json['Members'][new_member[0]]["name"] = new_member[0]
+            self._data_json['Members'][new_member[0]]["id"] = new_member[1]
+            self.update_json()
+            
     def get_channel_id(self, channel_name):
         return self.TextChannels[channel_name]['id']
