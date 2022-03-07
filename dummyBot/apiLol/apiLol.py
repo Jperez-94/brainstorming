@@ -7,23 +7,8 @@ REGION = ""
 class ApiLol():
 
     def __init__(self):
-        self._json_filepath = f'{__file__[0:__file__.find("apiLol.py")]}..\server_config.json'
         self._data_json = ""
         self.keyAPILol = cass.set_riot_api_key(APIKEY)
-        self.parser_json()
-    
-    def parser_json(self):
-        with open(self._json_filepath) as file:
-            self._data_json = json.load(file)
-
-        file.close()
-
-    def update_json(self):
-        with open(self._json_filepath, 'w') as file:
-            json.dump(self._data_json, file, indent= 4)
-
-        file.close()
-        self.parser_json()
 
     def updateSummoner(self, message) -> bool:
         discord_member = message.author.name
@@ -31,23 +16,21 @@ class ApiLol():
         # añadir check de que existe el summonerName, si existe guardar la info relevante. Si no, mensaje de error
         try:
             summoner_data = self._getSummoner(summoner)
+
             self._data_json['Members'][discord_member]['summoner'] = {}
             self._data_json['Members'][discord_member]['summoner']['name'] = summoner_data.name
             self._data_json['Members'][discord_member]['summoner']['id'] = summoner_data.id
             self._data_json['Members'][discord_member]['summoner']['accountid'] = summoner_data.account_id
             self._data_json['Members'][discord_member]['summoner']['puuid'] = summoner_data.puuid
-            self.update_json()
+
             return True
         except:
             return False
     
     def updateSummonerInfo(self, discord_member) -> bool:
-        print(discord_member)
         summoner = cass.Summoner(
-            id= self._data_json['Members'][discord_member]['summoner']['id'],
-            account_id= self._data_json['Members'][discord_member]['summoner']['accountid'],
-            name= self._data_json['Members'][discord_member]['summoner']['name'],
-            region=REGION)
+            name = self._data_json['Members'][discord_member]['summoner']['name'],
+            region = REGION)
         try:
             summoner_entries = cass.get_league_entries(summoner)
             summoner_5x5_data = summoner_entries.fives()
@@ -56,17 +39,16 @@ class ApiLol():
             self._data_json['Members'][discord_member]['summoner']['league_points'] = str(summoner_5x5_data.league_points)
             self._data_json['Members'][discord_member]['summoner']['wins'] = str(summoner_5x5_data.wins)
             self._data_json['Members'][discord_member]['summoner']['losses'] = str(summoner_5x5_data.losses)
-            self.update_json()
+
             return True
         except:
             return False
 
     def rankMembers(self) -> list:
         _summoners_rank = []
-        self.parser_json()
         for member in self._data_json['Members']:
             if "summoner" in self._data_json['Members'][member].keys():
-                # self.updateSummonerInfo(member)
+                self.updateSummonerInfo(member)
                 _summoners_rank.append(self._data_json['Members'][member]['summoner'])
         
         summoners_rank = []
