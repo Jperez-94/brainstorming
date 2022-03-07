@@ -2,6 +2,7 @@ import discord
 import server
 import apiLol.apiLol as apiLol
 import json
+from macros import json_key, commands
 
 class Bot():
     def __init__(self):
@@ -16,16 +17,16 @@ class Bot():
         async def on_ready():
             self.update_json()
             
-            send_to = self.client.get_channel(self.server.get_Textchannel_id('banana-messages'))
+            send_to = self.client.get_channel(self.server.get_Textchannel_id('test-channel'))
             await send_to.send('Hola holita, ya estamos por aquí!')
                         
         @self.client.event
         async def on_message(message):
-            if message.content.startswith('!close'):
+            if message.content.startswith(commands.Close):
                 await message.channel.send('Se acabó la diversion!')
                 await self.client.close()
             
-            elif message.content.startswith('!newmember'):
+            elif message.content.startswith(commands.NewMember):
                 new_member = [message.author.name, message.author.id]
                 res = self.server.add_Member(new_member)
                 self.update_json()
@@ -38,7 +39,7 @@ class Bot():
             elif (message.author.name in self.server.Members) is False:
                 await message.channel.send(f'Hola bananita, todavia no nos conocemos. Escribe !newmember para registrarte monete!')
 
-            elif message.content.startswith('!addmylol'):
+            elif message.content.startswith(commands.AddMyLol):
                 if message.content.find(' ') == -1:
                     await message.channel.send('Te falta un espacio despues del comando bananita!')
                     return
@@ -51,13 +52,13 @@ class Bot():
                     res = self.apiLol.updateSummonerInfo(message.author.name)
                     self.update_json()
                     if res:
-                        await message.channel.send(f'Interesante bananita, estás en {self._data_json["Members"][message.author.name]["summoner"]["tier"]} {self._data_json["Members"][message.author.name]["summoner"]["division"]}')
+                        await message.channel.send(f'Interesante bananita, estás en {self._data_json[json_key.Members][message.author.name][json_key.Summoner][json_key.Tier]} {self._data_json[json_key.Members][message.author.name][json_key.Summoner][json_key.Division]}')
                     else:
                         await message.channel.send('Oh oh bananita! Parece que aun no tienes clasificación')
                 else:
                     await message.channel.send('Algo ha salido mal bananita! Revisa que has escrito bien tu nombre de invocador')
 
-            elif message.content.startswith('!rank'):
+            elif message.content.startswith(commands.Rank):
                 self.parser_json()
                 res = self.apiLol.rankMembers()
                 if len(res) != 0:
@@ -81,9 +82,9 @@ class Bot():
             self.server._data_json = self._data_json
             self.apiLol._data_json = self._data_json
         
-        self.server.TextChannels = self._data_json['TextChannels']
-        self.server.VoidChannels = self._data_json['VoiceChannels']
-        self.server.Members = self._data_json['Members']
+        self.server.TextChannels = self._data_json[json_key.TextChannels]
+        self.server.VoidChannels = self._data_json[json_key.VoiceChannels]
+        self.server.Members = self._data_json[json_key.Members]
 
         file.close()
 
