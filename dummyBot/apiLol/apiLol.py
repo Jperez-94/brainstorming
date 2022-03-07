@@ -55,7 +55,13 @@ class ApiLol():
         for tier in self._order_rank(_summoners_rank):
             if len(tier) != 0:
                 for summoner in tier:
-                    summoners_rank.append([summoner[json_key.Name], summoner[json_key.Tier], summoner[json_key.Division]])
+                    summoners_rank.append([
+                        summoner[json_key.Name],
+                        summoner[json_key.Tier],
+                        summoner[json_key.Division],
+                        summoner[json_key.Wins],
+                        summoner[json_key.Losses]]
+                    )
         
         return summoners_rank
 
