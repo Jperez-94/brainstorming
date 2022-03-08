@@ -17,6 +17,7 @@ class Bot():
         async def on_ready():
             self.update_json()
             self.apiLol.Icons = self.client.emojis
+            print(self.apiLol.Icons)
             
             send_to = self.client.get_channel(self.server.get_Textchannel_id('test-channel'))
             await send_to.send('Hola holita, ya estamos por aquí!')

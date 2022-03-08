@@ -1,6 +1,7 @@
 import cassiopeia as cass
 from macros import json_key, commands, tiers, divisions
 
+
 APIKEY = ""
 REGION = ""
 
@@ -44,28 +45,49 @@ class ApiLol():
 
             return True
         except:
+            self._data_json[json_key.Members][discord_member][json_key.Summoner][json_key.Icon] = self._get_tier_icon(tiers._Unranked)
+            self._data_json[json_key.Members][discord_member][json_key.Summoner][json_key.Tier] = tiers._Unranked
+            self._data_json[json_key.Members][discord_member][json_key.Summoner][json_key.Division] = ""
+            
             return False
 
     def rankMembers(self) -> list:
         _summoners_rank = []
+        _unranked = []
         for member in self._data_json[json_key.Members]:
             if json_key.Summoner in self._data_json[json_key.Members][member].keys():
-                self.updateSummonerInfo(member)
-                _summoners_rank.append(self._data_json[json_key.Members][member][json_key.Summoner])
-        
+                # self.updateSummonerInfo(member)
+                if self._data_json[json_key.Members][member][json_key.Summoner][json_key.Tier] == tiers._Unranked:
+                    _unranked.append(self._data_json[json_key.Members][member][json_key.Summoner])
+                else:
+                    _summoners_rank.append(self._data_json[json_key.Members][member][json_key.Summoner])
+
         summoners_rank = []
-        for tier in self._order_rank(_summoners_rank):
+        _order_summoners = self._order_rank(_summoners_rank)
+        _order_summoners.append(_unranked)
+
+        for tier in _order_summoners:
             if len(tier) != 0:
                 for summoner in tier:
-                    summoners_rank.append([
-                        summoner[json_key.Icon],
-                        summoner[json_key.Name],
-                        summoner[json_key.Tier],
-                        summoner[json_key.Division],
-                        summoner[json_key.Wins],
-                        summoner[json_key.Losses]]
-                    )
-        
+                    if summoner[json_key.Tier] != tiers._Unranked:
+                        summoners_rank.append([
+                            summoner[json_key.Icon],
+                            summoner[json_key.Name],
+                            summoner[json_key.Tier],
+                            summoner[json_key.Division],
+                            summoner[json_key.Wins],
+                            summoner[json_key.Losses]]
+                        )
+                    else:
+                        summoners_rank.append([
+                            summoner[json_key.Icon],
+                            summoner[json_key.Name],
+                            summoner[json_key.Tier],
+                            "",
+                            "",
+                            ""]
+                        )
+
         return summoners_rank
 
     def _order_rank(self, summoners_info) -> list:
@@ -75,7 +97,7 @@ class ApiLol():
             ordered_tier.append(self._order_by_tier(summoners_info, tier))
             for division in divisions.Division_List:
                 ordered_summs.append(self._order_by_division(ordered_tier, division))
-        
+
         return ordered_summs
         
     def _order_by_tier(self, summoners_info, tier) -> list:
@@ -90,7 +112,7 @@ class ApiLol():
         ordered_division = []
         for summoner in summoners_info[0]:
             if len(summoner) != 0:
-                if summoner[json_key.Division] == division:
+                if summoner[json_key.Division]:
                     ordered_division.append(summoner)
         
         return ordered_division

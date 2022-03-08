@@ -31,6 +31,7 @@ class tiers():
     _Silver = "Silver"
     _Bronze = "Bronze"
     _Iron = "Iron"
+    _Unranked = "Unranked"
 
     Tier_List = [
         _Challenger,
@@ -41,7 +42,8 @@ class tiers():
         _Gold,
         _Silver,
         _Bronze,
-        _Iron
+        _Iron,
+        _Unranked
     ]
 
 class divisions():

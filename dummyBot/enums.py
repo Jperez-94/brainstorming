@@ -9,6 +9,7 @@ class enum_tier():
     silver = 6
     bronze = 7
     iron = 8
+    unranked = 9
 
 class enum_division():
     division_I = 0
