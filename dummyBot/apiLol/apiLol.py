@@ -56,7 +56,7 @@ class ApiLol():
         _unranked = []
         for member in self._data_json[json_key.Members]:
             if json_key.Summoner in self._data_json[json_key.Members][member].keys():
-                # self.updateSummonerInfo(member)
+                self.updateSummonerInfo(member)
                 if self._data_json[json_key.Members][member][json_key.Summoner][json_key.Tier] == tiers._Unranked:
                     _unranked.append(self._data_json[json_key.Members][member][json_key.Summoner])
                 else:
