@@ -20,6 +20,7 @@ class commands():
     Close = "!close"
     AddMyLol = "!addmylol"
     Rank = "!rank"
+    MyLol = "!mylol"
 
 class tiers():
     _Challenger = "Challenger"

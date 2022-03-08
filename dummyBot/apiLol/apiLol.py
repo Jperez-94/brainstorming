@@ -90,6 +90,40 @@ class ApiLol():
 
         return summoners_rank
 
+    def get_summoner_stadistics(self, discord_member) -> str:
+        if json_key.Summoner not in self._data_json[json_key.Members][discord_member].keys():
+            return "Vaya bananita! No te tengo guardado como un intrépido invocador. \
+                 Para acceder a comandos de League of Legends escribe !addmylol [Nombre de invocador]"
+
+        summoner = self._data_json[json_key.Members][discord_member][json_key.Summoner]
+        if summoner[json_key.Tier] != tiers._Unranked:
+            message = f"""
+            Invocador: {summoner[json_key.Name]}
+                Rank: {summoner[json_key.Tier]} {summoner[json_key.Division]} {self.Icons[summoner[json_key.Icon]]}
+
+                                        {summoner[json_key.LeaguePoints]} LP
+
+
+                                VICTORIAS: {summoner[json_key.Wins]}
+                                DERROTAS: {summoner[json_key.Losses]}
+
+
+            """
+        else:
+            message = f"""
+            Invocador: {summoner[json_key.Name]}
+                Rank: {summoner[json_key.Tier]}  {self.Icons[summoner[json_key.Icon]]}
+
+                                        0 LP
+
+
+                    VICTORIAS: 0 bananitas
+                    DERROTAS: 0 bananitas
+
+
+            """
+        return message
+
     def _order_rank(self, summoners_info) -> list:
         ordered_summs = []
         for tier in tiers.Tier_List:
@@ -112,7 +146,7 @@ class ApiLol():
         ordered_division = []
         for summoner in summoners_info[0]:
             if len(summoner) != 0:
-                if summoner[json_key.Division]:
+                if summoner[json_key.Division] == division:
                     ordered_division.append(summoner)
         
         return ordered_division

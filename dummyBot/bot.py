@@ -17,7 +17,6 @@ class Bot():
         async def on_ready():
             self.update_json()
             self.apiLol.Icons = self.client.emojis
-            print(self.apiLol.Icons)
             
             send_to = self.client.get_channel(self.server.get_Textchannel_id('test-channel'))
             await send_to.send('Hola holita, ya estamos por aquí!')
@@ -63,6 +62,7 @@ class Bot():
             elif message.content.startswith(commands.Rank):
                 self.parser_json()
                 res = self.apiLol.rankMembers()
+                
                 if len(res) != 0:
                     answer = "Veamos como va el ranking bananita:\n"
                     for el in res:
@@ -74,6 +74,10 @@ class Bot():
 
             elif message.author == self.client.user:
                 return
+            
+            elif message.content.startswith(commands.MyLol):
+                mess = self.apiLol.get_summoner_stadistics(message.author.name)
+                await message.channel.send(mess)
 
             else:
                 await message.channel.send('Hola holita bananita!')
