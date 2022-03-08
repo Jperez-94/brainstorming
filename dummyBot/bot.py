@@ -16,6 +16,7 @@ class Bot():
         @self.client.event
         async def on_ready():
             self.update_json()
+            self.apiLol.Icons = self.client.emojis
             
             send_to = self.client.get_channel(self.server.get_Textchannel_id('test-channel'))
             await send_to.send('Hola holita, ya estamos por aquí!')
@@ -64,7 +65,7 @@ class Bot():
                 if len(res) != 0:
                     answer = "Veamos como va el ranking bananita:\n"
                     for el in res:
-                        answer += f"-> {el[0]} está en {el[1]} {el[2]}\n"
+                        answer += f"            {self.apiLol.Icons[el[0]]} {el[1]} está en {el[2]} {el[3]}\n"
                     
                     await message.channel.send(answer)
                 else:

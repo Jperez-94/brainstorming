@@ -9,6 +9,7 @@ class ApiLol():
     def __init__(self):
         self._data_json = ""
         self.keyAPILol = cass.set_riot_api_key(APIKEY)
+        self.Icons = list()
 
     def updateSummoner(self, message) -> bool:
         discord_member = message.author.name
@@ -34,6 +35,7 @@ class ApiLol():
         try:
             summoner_entries = cass.get_league_entries(summoner)
             summoner_5x5_data = summoner_entries.fives()
+            self._data_json[json_key.Members][discord_member][json_key.Summoner][json_key.Icon] = self._get_tier_icon(str(summoner_5x5_data.tier))
             self._data_json[json_key.Members][discord_member][json_key.Summoner][json_key.Tier] = str(summoner_5x5_data.tier)
             self._data_json[json_key.Members][discord_member][json_key.Summoner][json_key.Division] = str(summoner_5x5_data.division)
             self._data_json[json_key.Members][discord_member][json_key.Summoner][json_key.LeaguePoints] = str(summoner_5x5_data.league_points)
@@ -56,6 +58,7 @@ class ApiLol():
             if len(tier) != 0:
                 for summoner in tier:
                     summoners_rank.append([
+                        summoner[json_key.Icon],
                         summoner[json_key.Name],
                         summoner[json_key.Tier],
                         summoner[json_key.Division],
@@ -67,8 +70,6 @@ class ApiLol():
 
     def _order_rank(self, summoners_info) -> list:
         ordered_summs = []
-        divisiones = ['I', 'II', 'III', 'IV']
-
         for tier in tiers.Tier_List:
             ordered_tier = []
             ordered_tier.append(self._order_by_tier(summoners_info, tier))
@@ -93,6 +94,11 @@ class ApiLol():
                     ordered_division.append(summoner)
         
         return ordered_division
+
+    def _get_tier_icon(self, rank_name) -> int:
+        for i in range(len(self.Icons)):
+            if self.Icons[i].name == rank_name:
+                return i
 
     def _getSummoner(self, summoner) -> cass.Summoner:
         return cass.get_summoner(name= summoner, region= REGION)

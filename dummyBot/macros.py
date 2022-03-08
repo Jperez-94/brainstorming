@@ -8,6 +8,7 @@ class json_key():
     Summoner = "summoner"
     AccountId = "accountid"
     Puuid = "puuid"
+    Icon = 'icon'
     Tier = "tier"
     Division = "division"
     LeaguePoints = "league_points"
