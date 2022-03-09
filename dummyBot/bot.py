@@ -9,12 +9,13 @@ class Bot():
         self.client = discord.Client()
         self.server = server.ServerCfg()
         self.apiLol = apiLol.ApiLol()
+        self._killExecution = False
         self._json_filepath = f'{__file__[0:__file__.find("bot.py")]}server_config.json'
         self._data_json = ""
         self.parser_json()
 
         @self.client.event
-        async def on_ready():
+        async def on_ready() -> None:
             self.update_json()
             self.apiLol.Icons = self.client.emojis
             
@@ -22,67 +23,82 @@ class Bot():
             await send_to.send('Hola holita, ya estamos por aquí!')
                         
         @self.client.event
-        async def on_message(message):
-            if message.content.startswith(commands.Close):
-                await message.channel.send('Se acabó la diversion!')
-                await self.client.close()
+        async def on_message(message) -> None:
+            if (message.author.name in self.server.Members) is False and self.checkForCommand(message) != commands.NewMember:
+                if self.checkForCommand(message) != commands.Close:
+                    await message.channel.send(f'Hola bananita, todavia no nos conocemos. Escribe !newmember para registrarte monete!')
             
-            elif message.content.startswith(commands.NewMember):
-                new_member = [message.author.name, message.author.id]
-                res = self.server.add_Member(new_member)
-                self.update_json()
-                if res is False:
-                    res_message = f'{message.author.name}, ya tenías casa en esta jungla! Ya puedes usar las funcionalidades de League of Legends, lo primero es registrar tu nombre de invocador. Escribe !addmylol [nombreInvocador]'
-                else:
-                    res_message = f'Bienvenido a la jungla {message.author.name}! Si quieres acceder a las funcionalidades de League of Leagends, añade tu nombre de invocador escribiendo !addmylol [nombreInvocador]'
-                await message.channel.send(res_message)
-            
-            elif (message.author.name in self.server.Members) is False:
-                await message.channel.send(f'Hola bananita, todavia no nos conocemos. Escribe !newmember para registrarte monete!')
-
-            elif message.content.startswith(commands.AddMyLol):
-                if message.content.find(' ') == -1:
-                    await message.channel.send('Te falta un espacio despues del comando bananita!')
-                    return
-
-                self.parser_json()
-                res = self.apiLol.updateSummoner(message)
-                self.update_json()
-                if res:
-                    await message.channel.send('Uuuuh bananita! Veamos si eres un intrépido invocador...')
-                    res = self.apiLol.updateSummonerInfo(message.author.name)
-                    self.update_json()
-                    if res:
-                        await message.channel.send(f'Interesante bananita, estás en {self._data_json[json_key.Members][message.author.name][json_key.Summoner][json_key.Tier]} {self._data_json[json_key.Members][message.author.name][json_key.Summoner][json_key.Division]}')
-                    else:
-                        await message.channel.send('Oh oh bananita! Parece que aun no tienes clasificación')
-                else:
-                    await message.channel.send('Algo ha salido mal bananita! Revisa que has escrito bien tu nombre de invocador')
-
-            elif message.content.startswith(commands.Rank):
-                self.parser_json()
-                res = self.apiLol.rankMembers()
-                
-                if len(res) != 0:
-                    answer = "Veamos como va el ranking bananita:\n"
-                    for el in res:
-                        answer += f"            {self.apiLol.Icons[el[0]]} {el[1]} está en {el[2]} {el[3]}\n"
-                    
-                    await message.channel.send(answer)
-                else:
-                    await message.channel.send('Vaya bananita! No hay ningún invocador registrado o con rango conseguido')
-
             elif message.author == self.client.user:
                 return
-            
-            elif message.content.startswith(commands.MyLol):
-                mess = self.apiLol.get_summoner_stadistics(message.author.name)
-                await message.channel.send(mess)
 
+            elif self.checkForCommand(message) in commands.Command_List:
+                print(self.checkForCommand(message))
+                bot_answer = self.set_action(self.checkForCommand(message), message)
+                await message.channel.send(bot_answer)
+                if self._killExecution:
+                    await self.client.close()
+            
             else:
                 await message.channel.send('Hola holita bananita!')
+
+                
     
-    def parser_json(self):
+    def set_action(self, command, user_message):
+        if command == commands.Close and user_message.author.name == json_key.Admin:
+            self._killExecution = True
+            return 'Se acabó la diversion!'
+
+        elif command == commands.Close and user_message.author.name != json_key.Admin:
+            return 'Bananita! Parece que no sabes que botón tienes que pulsar'
+        
+        elif command == commands.NewMember:
+            new_member = [user_message.author.name, user_message.author.id]
+            res = self.server.add_Member(new_member)
+            self.update_json()
+            if res is False:
+                return f'{user_message.author.name}, ya tenías casa en esta jungla! Ya puedes usar las funcionalidades de League of Legends, lo primero es registrar tu nombre de invocador. Escribe !addmylol [nombreInvocador]'
+            else:
+                return f'Bienvenido a la jungla {user_message.author.name}! Si quieres acceder a las funcionalidades de League of Leagends, añade tu nombre de invocador escribiendo !addmylol [nombreInvocador]'
+
+        elif command == commands.AddMyLol:
+            if user_message.content.find(' ') == -1:
+                return'Te falta un espacio despues del comando bananita!'
+
+            self.parser_json()
+            res = self.apiLol.updateSummoner(user_message)
+            self.update_json()
+            if res:
+                bot_message = 'Uuuuh bananita! Veamos si eres un intrépido invocador...\n'
+                res = self.apiLol.updateSummonerInfo(user_message.author.name)
+                self.update_json()
+                if res:
+                    bot_message += f'\nInteresante bananita, estás en {self._data_json[json_key.Members][user_message.author.name][json_key.Summoner][json_key.Tier]} {self._data_json[json_key.Members][user_message.author.name][json_key.Summoner][json_key.Division]}'
+                else:
+                    bot_message += '\nOh oh bananita! Parece que aun no tienes clasificación'
+                
+                return bot_message
+
+            else:
+                return 'Algo ha salido mal bananita! Revisa que has escrito bien tu nombre de invocador'
+
+        elif command ==commands.Rank:
+            self.parser_json()
+            res = self.apiLol.rankMembers()
+            
+            if len(res) != 0:
+                answer = "Veamos como va el ranking bananita:\n"
+                for el in res:
+                    answer += f"            {self.apiLol.Icons[el[0]]} {el[1]} está en {el[2]} {el[3]}\n"
+                
+                return answer
+            else:
+                return 'Vaya bananita! No hay ningún invocador registrado o con rango conseguido'
+        
+        elif command == commands.MyLol:
+            mess = self.apiLol.get_summoner_stadistics(user_message.author.name)
+            return mess
+    
+    def parser_json(self) -> None:
         with open(self._json_filepath) as file:
             self._data_json = json.load(file)
             self.server._data_json = self._data_json
@@ -94,7 +110,7 @@ class Bot():
 
         file.close()
 
-    def update_json(self):
+    def update_json(self) -> None:
         server_channels = self.get_all_channels()
         server_members = self.client.get_all_members()
         self.server.get_server_TextChannels(server_channels)
@@ -106,6 +122,13 @@ class Bot():
 
         file.close()
         self.parser_json()
+
+    def checkForCommand(self, user_message) -> str:
+        for command in commands.Command_List:
+            if user_message.content.find(command) == 0:
+                return command
+        
+        return None
 
     def get_all_channels(self) -> list:
         channels = []

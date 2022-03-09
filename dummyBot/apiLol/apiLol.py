@@ -92,8 +92,7 @@ class ApiLol():
 
     def get_summoner_stadistics(self, discord_member) -> str:
         if json_key.Summoner not in self._data_json[json_key.Members][discord_member].keys():
-            return "Vaya bananita! No te tengo guardado como un intrépido invocador. \
-                 Para acceder a comandos de League of Legends escribe !addmylol [Nombre de invocador]"
+            return "Vaya bananita! No te tengo guardado como un intrépido invocador. Para acceder a comandos de League of Legends escribe !addmylol [Nombre de invocador]"
 
         summoner = self._data_json[json_key.Members][discord_member][json_key.Summoner]
         if summoner[json_key.Tier] != tiers._Unranked:

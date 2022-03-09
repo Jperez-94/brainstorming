@@ -1,5 +1,6 @@
 
 class json_key():
+    Admin = 'Jusepo'
     Members = "Members"
     TextChannels = "TextChannels"
     VoiceChannels = "VoiceChannels"
@@ -21,6 +22,14 @@ class commands():
     AddMyLol = "!addmylol"
     Rank = "!rank"
     MyLol = "!mylol"
+
+    Command_List = [
+        NewMember,
+        Close,
+        AddMyLol,
+        Rank,
+        MyLol
+    ]
 
 class tiers():
     _Challenger = "Challenger"
