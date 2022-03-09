@@ -1,6 +1,13 @@
 
+class admin():
+    REGION = ""
+    APILOLKEY = ""
+    ADMIN = ''
+    DEFAULT_CHANNEL = ''
+    BOT_FILE = "bot.py"
+    JSON_FILE = "server_config.json"
+
 class json_key():
-    Admin = 'Jusepo'
     Members = "Members"
     TextChannels = "TextChannels"
     VoiceChannels = "VoiceChannels"
@@ -68,3 +75,21 @@ class divisions():
         _III,
         _IV
     ]
+
+class messages():
+    on_ready = 'Hola holita, ya estamos por aquí!'
+    notKnowMember = 'Hola bananita, todavia no nos conocemos. Escribe !newmember para registrarte monete!'
+    close = 'Se acabó la diversion!'
+    default = 'Hola holita bananita!'
+    restricFeature = 'Bananita! Parece que no sabes que botón tienes que pulsar'
+    alreadyRegistered = '{}, ya tenías casa en esta jungla! Ya puedes usar las funcionalidades de League of Legends, lo primero es registrar tu nombre de invocador. Escribe !addmylol [nombreInvocador]'
+    welcomeNewMember = 'Bienvenido a la jungla {}! Si quieres acceder a las funcionalidades de League of Leagends, añade tu nombre de invocador escribiendo !addmylol [nombreInvocador]'
+    badCommandFormat = 'Te falta un espacio despues del comando bananita!'
+    checkSummonerDefault = 'Uuuuh bananita! Veamos si eres un intrépido invocador...\n'
+    summonerFound = '\nInteresante bananita, estás en {} {}'
+    summonerNotRanked = '\nOh oh bananita! Parece que aun no tienes clasificación'
+    summonerNotFound = 'Algo ha salido mal bananita! Revisa que has escrito bien tu nombre de invocador'
+    introRank = "Veamos como va el ranking bananita:\n"
+    rankMessage = "            {} está en {} {}\n"
+    rankUnable = 'Vaya bananita! No hay ningún invocador registrado o con rango conseguido'
+    summonerNotRegistered = "Vaya bananita! No te tengo guardado como un intrépido invocador. Para acceder a comandos de League of Legends escribe !addmylol [Nombre de invocador]"

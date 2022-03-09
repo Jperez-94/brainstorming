@@ -1,21 +1,17 @@
 import cassiopeia as cass
-from macros import json_key, commands, tiers, divisions
+from macros import json_key, commands, tiers, divisions, admin, messages
 
-
-APIKEY = ""
-REGION = ""
 
 class ApiLol():
 
     def __init__(self):
         self._data_json = ""
-        self.keyAPILol = cass.set_riot_api_key(APIKEY)
+        self.keyAPILol = cass.set_riot_api_key(admin.APILOLKEY)
         self.Icons = list()
 
     def updateSummoner(self, message) -> bool:
         discord_member = message.author.name
         summoner = message.content[len(commands.AddMyLol) + 1:len(message.content)]
-        # añadir check de que existe el summonerName, si existe guardar la info relevante. Si no, mensaje de error
         try:
             summoner_data = self._getSummoner(summoner)
 
@@ -32,7 +28,7 @@ class ApiLol():
     def updateSummonerInfo(self, discord_member) -> bool:
         summoner = cass.Summoner(
             name = self._data_json[json_key.Members][discord_member][json_key.Summoner][json_key.Name],
-            region = REGION)
+            region = admin.REGION)
         try:
             summoner_entries = cass.get_league_entries(summoner)
             summoner_5x5_data = summoner_entries.fives()
@@ -92,7 +88,7 @@ class ApiLol():
 
     def get_summoner_stadistics(self, discord_member) -> str:
         if json_key.Summoner not in self._data_json[json_key.Members][discord_member].keys():
-            return "Vaya bananita! No te tengo guardado como un intrépido invocador. Para acceder a comandos de League of Legends escribe !addmylol [Nombre de invocador]"
+            return messages.summonerNotRegistered
 
         summoner = self._data_json[json_key.Members][discord_member][json_key.Summoner]
         if summoner[json_key.Tier] != tiers._Unranked:
@@ -156,4 +152,4 @@ class ApiLol():
                 return i
 
     def _getSummoner(self, summoner) -> cass.Summoner:
-        return cass.get_summoner(name= summoner, region= REGION)
+        return cass.get_summoner(name= summoner, region= admin.REGION)
