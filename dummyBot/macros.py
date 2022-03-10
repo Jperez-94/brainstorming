@@ -29,13 +29,20 @@ class commands():
     AddMyLol = "!addmylol"
     Rank = "!rank"
     MyLol = "!mylol"
+    Commands = "!commands"
 
     Command_List = [
         NewMember,
-        Close,
         AddMyLol,
         Rank,
-        MyLol
+        MyLol,
+        Close,
+        Commands
+    ]
+
+    Restrict_List =[
+        Close,
+        Commands
     ]
 
 class tiers():
@@ -80,7 +87,7 @@ class messages():
     on_ready = 'Hola holita, ya estamos por aquí!'
     notKnowMember = 'Hola bananita, todavia no nos conocemos. Escribe !newmember para registrarte monete!'
     close = 'Se acabó la diversion!'
-    default = 'Hola holita bananita!'
+    default = 'Hola holita bananita!\n\n Comandos:\n    ->!addmylol nombreInvocador\n   ->!mylol\n  ->!rank'
     restricFeature = 'Bananita! Parece que no sabes que botón tienes que pulsar'
     alreadyRegistered = '{}, ya tenías casa en esta jungla! Ya puedes usar las funcionalidades de League of Legends, lo primero es registrar tu nombre de invocador. Escribe !addmylol [nombreInvocador]'
     welcomeNewMember = 'Bienvenido a la jungla {}! Si quieres acceder a las funcionalidades de League of Leagends, añade tu nombre de invocador escribiendo !addmylol [nombreInvocador]'
@@ -93,3 +100,14 @@ class messages():
     rankMessage = "            {} {} está en {} {}\n"
     rankUnable = 'Vaya bananita! No hay ningún invocador registrado o con rango conseguido'
     summonerNotRegistered = "Vaya bananita! No te tengo guardado como un intrépido invocador. Para acceder a comandos de League of Legends escribe !addmylol [Nombre de invocador]"
+    allCommands = """
+    ############################################################
+    Listado de comandos completo
+    ############################################################
+    !newmember
+    !addmylol
+    !mylol
+    !rank
+    !commands
+    !close
+    """

@@ -43,12 +43,15 @@ class Bot():
                 
     
     def _set_action(self, command, user_message):
-        if command == commands.Close and user_message.author.name == admin.ADMIN:
+        if command in commands.Restrict_List and user_message.author.name != admin.ADMIN:
+            return messages.restricFeature
+        
+        elif command == commands.Close:
             self._killExecution = True
             return messages.close
-
-        elif command == commands.Close and user_message.author.name != admin.ADMIN:
-            return messages.restricFeature
+        
+        elif command == commands.Commands:
+            return messages.allCommands
         
         elif command == commands.NewMember:
             new_member = [user_message.author.name, user_message.author.id]
