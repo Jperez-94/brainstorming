@@ -69,6 +69,7 @@ class Bot():
             if res:
                 bot_message = messages.checkSummonerDefault
                 res = self.apiLol.updateSummonerInfo(user_message.author.name)
+                self._data_json = self.apiLol._data_json
                 self.update_json()
                 if res:
                     bot_message += messages.summonerFound.format(
@@ -90,7 +91,7 @@ class Bot():
             if len(res) != 0:
                 answer = messages.introRank
                 for el in res:
-                    answer += messages.rankMessage.format(self.apiLol.Icons[el[0]], el[2], el[3])
+                    answer += messages.rankMessage.format(self.apiLol.Icons[el[0]], el[1], el[2], el[3])
                 
                 return answer
             else:

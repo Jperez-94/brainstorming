@@ -90,6 +90,6 @@ class messages():
     summonerNotRanked = '\nOh oh bananita! Parece que aun no tienes clasificación'
     summonerNotFound = 'Algo ha salido mal bananita! Revisa que has escrito bien tu nombre de invocador'
     introRank = "Veamos como va el ranking bananita:\n"
-    rankMessage = "            {} está en {} {}\n"
+    rankMessage = "            {} {} está en {} {}\n"
     rankUnable = 'Vaya bananita! No hay ningún invocador registrado o con rango conseguido'
     summonerNotRegistered = "Vaya bananita! No te tengo guardado como un intrépido invocador. Para acceder a comandos de League of Legends escribe !addmylol [Nombre de invocador]"
