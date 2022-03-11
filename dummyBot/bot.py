@@ -68,6 +68,7 @@ class Bot():
 
             self.parser_json()
             res = self.apiLol.updateSummoner(user_message)
+            self._data_json = self.apiLol._data_json
             self.update_json()
             if res:
                 bot_message = messages.checkSummonerDefault
@@ -90,6 +91,8 @@ class Bot():
         elif command ==commands.Rank:
             self.parser_json()
             res = self.apiLol.rankMembers()
+            self._data_json = self.apiLol._data_json
+            self.update_json()
             
             if len(res) != 0:
                 answer = messages.introRank

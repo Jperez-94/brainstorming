@@ -4,8 +4,9 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# bot = commands.Bot(command_prefix = '!')
-
+# Añadir un check de que se tiene la configuracion lista
+# Añadir control de errores
+# Añadir servicio de mensajeria enviando reporte con error al admin
 
 bot = Bot()
 
