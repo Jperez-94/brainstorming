@@ -84,6 +84,8 @@ class divisions():
     ]
 
 class messages():
+    adminRequest = 'Hola bananita! Tu administrador {} no está registrado. Para hacerlo, debe escribir !newmember'
+    adminRegister = 'Todos serios bananitas! El administrador {} ha hecho acto de presencia'
     on_ready = 'Hola holita, ya estamos por aquí!'
     notKnowMember = 'Hola bananita, todavia no nos conocemos. Escribe !newmember para registrarte monete!'
     close = 'Se acabó la diversion!'
@@ -110,4 +112,13 @@ class messages():
     !rank
     !commands
     !close
+    """
+
+class errorMessages():
+    ErrorConfig = """Configuration missing at macros.py file. Check that the fields below are properly filled:
+    class admin:
+        REGION
+        APILOLKEY
+        ADMIN
+        DEFAULT_CHANNEL -> Default text channel the bot will write to. It has to be visible to the bot
     """

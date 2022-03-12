@@ -3,6 +3,7 @@ import server
 import apiLol.apiLol as apiLol
 import json
 from macros import json_key, commands, admin, messages
+import exceptions as ex
 
 class Bot():
     def __init__(self):
@@ -17,19 +18,29 @@ class Bot():
         @self.client.event
         async def on_ready() -> None:
             self.update_json()
-            self.apiLol.Icons = self.client.emojis
+            if self.checkConfiguration() is False:
+                await self.client.close()
+                raise ex.ConfigurationFail
             
             send_to = self.client.get_channel(self.server.get_Textchannel_id(admin.DEFAULT_CHANNEL))
+            self.apiLol.Icons = self.client.emojis
             await send_to.send(messages.on_ready)
                         
         @self.client.event
         async def on_message(message) -> None:
-            if (message.author.name in self.server.Members) is False and self.checkForCommand(message) != commands.NewMember:
+            if message.author == self.client.user:
+                return
+
+            elif admin.ADMIN not in self._data_json[json_key.Members].keys():
+                if message.author.name != admin.ADMIN or self.checkForCommand(message) != commands.NewMember:
+                    await message.channel.send(messages.adminRequest.format(admin.ADMIN))
+                else:
+                    self._set_action(commands.NewMember, message)
+                    await message.channel.send(messages.adminRegister.format(message.author.name))
+
+            elif (message.author.name in self.server.Members) is False and self.checkForCommand(message) != commands.NewMember:
                 if self.checkForCommand(message) != commands.Close:
                     await message.channel.send(messages.notKnowMember)
-            
-            elif message.author == self.client.user:
-                return
 
             elif self.checkForCommand(message) in commands.Command_List:
                 bot_answer = self._set_action(self.checkForCommand(message), message)
@@ -146,3 +157,15 @@ class Bot():
                 channels.append(channel)
         
         return channels
+
+    def checkConfiguration(self) -> bool:
+        if admin.REGION == "":
+            return False
+        elif admin.APILOLKEY == "":
+            return False
+        elif admin.ADMIN == "":
+            return False
+        elif admin.DEFAULT_CHANNEL == "" or admin.DEFAULT_CHANNEL not in self._data_json[json_key.TextChannels].keys():
+            return False
+        else:
+            return True
