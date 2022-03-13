@@ -2,8 +2,8 @@
 class admin():
     REGION = ""
     APILOLKEY = ""
-    ADMIN = ''
-    DEFAULT_CHANNEL = ''
+    ADMIN = ""
+    DEFAULT_CHANNEL = ""
     BOT_FILE = "bot.py"
     JSON_FILE = "server_config.json"
 
@@ -16,7 +16,7 @@ class json_key():
     Summoner = "summoner"
     AccountId = "accountid"
     Puuid = "puuid"
-    Icon = 'icon'
+    Icon = "icon"
     Tier = "tier"
     Division = "division"
     LeaguePoints = "league_points"
@@ -84,23 +84,23 @@ class divisions():
     ]
 
 class messages():
-    adminRequest = 'Hola bananita! Tu administrador {} no está registrado. Para hacerlo, debe escribir !newmember'
-    adminRegister = 'Todos serios bananitas! El administrador {} ha hecho acto de presencia'
-    on_ready = 'Hola holita, ya estamos por aquí!'
-    notKnowMember = 'Hola bananita, todavia no nos conocemos. Escribe !newmember para registrarte monete!'
-    close = 'Se acabó la diversion!'
-    default = 'Hola holita bananita!\n\n Comandos:\n    ->!addmylol nombreInvocador\n   ->!mylol\n  ->!rank'
-    restricFeature = 'Bananita! Parece que no sabes que botón tienes que pulsar'
-    alreadyRegistered = '{}, ya tenías casa en esta jungla! Ya puedes usar las funcionalidades de League of Legends, lo primero es registrar tu nombre de invocador. Escribe !addmylol [nombreInvocador]'
-    welcomeNewMember = 'Bienvenido a la jungla {}! Si quieres acceder a las funcionalidades de League of Leagends, añade tu nombre de invocador escribiendo !addmylol [nombreInvocador]'
-    badCommandFormat = 'Te falta un espacio despues del comando bananita!'
-    checkSummonerDefault = 'Uuuuh bananita! Veamos si eres un intrépido invocador...\n'
-    summonerFound = '\nInteresante bananita, estás en {} {}'
-    summonerNotRanked = '\nOh oh bananita! Parece que aun no tienes clasificación'
-    summonerNotFound = 'Algo ha salido mal bananita! Revisa que has escrito bien tu nombre de invocador'
+    adminRequest = "Hola bananita! Tu administrador {} no está registrado. Para hacerlo, debe escribir !newmember"
+    adminRegister = "Todos serios bananitas! El administrador {} ha hecho acto de presencia"
+    on_ready = "Hola holita, ya estamos por aquí!"
+    notKnowMember = "Hola bananita, todavia no nos conocemos. Escribe !newmember para registrarte monete!"
+    close = "Se acabó la diversion!"
+    default = "Hola holita bananita!\n\n Comandos:\n    ->!addmylol nombreInvocador\n   ->!mylol\n  ->!rank"
+    restricFeature = "Bananita! Parece que no sabes que botón tienes que pulsar"
+    alreadyRegistered = "{}, ya tenías casa en esta jungla! Ya puedes usar las funcionalidades de League of Legends, lo primero es registrar tu nombre de invocador. Escribe !addmylol [nombreInvocador]"
+    welcomeNewMember = "Bienvenido a la jungla {}! Si quieres acceder a las funcionalidades de League of Leagends, añade tu nombre de invocador escribiendo !addmylol [nombreInvocador]"
+    badCommandFormat = "Te falta un espacio despues del comando bananita!"
+    checkSummonerDefault = "Uuuuh bananita! Veamos si eres un intrépido invocador...\n"
+    summonerFound = "\nInteresante bananita, estás en {} {}"
+    summonerNotRanked = "\nOh oh bananita! Parece que aun no tienes clasificación"
+    summonerNotFound = "Algo ha salido mal bananita! Revisa que has escrito bien tu nombre de invocador"
     introRank = "Veamos como va el ranking bananita:\n"
     rankMessage = "            {} {} está en {} {}\n"
-    rankUnable = 'Vaya bananita! No hay ningún invocador registrado o con rango conseguido'
+    rankUnable = "Vaya bananita! No hay ningún invocador registrado o con rango conseguido"
     summonerNotRegistered = "Vaya bananita! No te tengo guardado como un intrépido invocador. Para acceder a comandos de League of Legends escribe !addmylol [Nombre de invocador]"
     allCommands = """
     ############################################################
@@ -122,3 +122,5 @@ class errorMessages():
         ADMIN
         DEFAULT_CHANNEL -> Default text channel the bot will write to. It has to be visible to the bot
     """
+    ErrorEmojis = """There are emojis missing to be added to the server.
+    The name of the emojis have to match with list at macros.py -> class tiers"""

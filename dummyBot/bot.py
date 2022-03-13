@@ -2,13 +2,10 @@ import discord
 import server
 import apiLol.apiLol as apiLol
 import json
-from macros import json_key, commands, admin, messages
+from macros import json_key, commands, admin, messages, tiers
 import exceptions as ex
-import time
 from dotenv import load_dotenv
 import os
-import sys
-
 load_dotenv()
 
 class Bot():
@@ -27,12 +24,15 @@ class Bot():
         @self.client.event
         async def on_ready() -> None:
             self.update_json()
-            if self.checkConfiguration() is False:
+            if self.checkConfiguration():
                 await self.client.close()
                 raise ex.ConfigurationFail
-            
+            if self.checkEmojis():
+                await self.client.close()
+                raise ex.EmojisFail
+
             send_to = self.client.get_channel(self.server.get_Textchannel_id(admin.DEFAULT_CHANNEL))
-            self.apiLol.Icons = self.client.emojis
+            
             await send_to.send(messages.on_ready)
                         
         @self.client.event
@@ -170,12 +170,20 @@ class Bot():
 
     def checkConfiguration(self) -> bool:
         if admin.REGION == "":
-            return False
-        elif admin.APILOLKEY == "":
-            return False
-        elif admin.ADMIN == "":
-            return False
-        elif admin.DEFAULT_CHANNEL == "" or admin.DEFAULT_CHANNEL not in self._data_json[json_key.TextChannels].keys():
-            return False
-        else:
             return True
+        elif admin.APILOLKEY == "":
+            return True
+        elif admin.ADMIN == "":
+            return True
+        elif admin.DEFAULT_CHANNEL == "" or admin.DEFAULT_CHANNEL not in self._data_json[json_key.TextChannels].keys():
+            return True
+        else:
+            return False
+
+    def checkEmojis(self) -> bool:
+        emojisList = self.client.emojis
+        for emoji in emojisList:
+            if emoji.name not in tiers.Tier_List:
+                return True
+        
+        return False
