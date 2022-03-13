@@ -25,4 +25,5 @@ Stay creative and lets work!
 ## Releases
 
 - Status words Panel v1.0.0
+- Dummy Bot + API League of Legends functionallities v1.0.1
 
