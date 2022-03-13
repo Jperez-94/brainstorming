@@ -8,6 +8,8 @@ import sys
 # Añadir servicio de mensajeria enviando reporte con error al admin
 # Reset mediante comando
 # Añadir reset, desde discord.py no parece posible. Hay que bajar a la capa HTTPS o buscar otra opcion
+# Check que los iconos existen en el server
+# Añadir iconos automaticamente
 
 def createBotInstance():
     return Bot()
