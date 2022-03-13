@@ -4,16 +4,25 @@ import apiLol.apiLol as apiLol
 import json
 from macros import json_key, commands, admin, messages
 import exceptions as ex
+import time
+from dotenv import load_dotenv
+import os
+import sys
+
+load_dotenv()
 
 class Bot():
+
     def __init__(self):
         self.client = discord.Client()
         self.server = server.ServerCfg()
         self.apiLol = apiLol.ApiLol()
         self._killExecution = False
+        self.environment = os.getenv('DISCORD_TOKEN')
         self._json_filepath = f'{__file__[0:__file__.find(admin.BOT_FILE)]}{admin.JSON_FILE}'
         self._data_json = ""
         self.parser_json()
+    
 
         @self.client.event
         async def on_ready() -> None:
@@ -46,6 +55,7 @@ class Bot():
                 bot_answer = self._set_action(self.checkForCommand(message), message)
                 await message.channel.send(bot_answer)
                 if self._killExecution:
+                    self._killExecution = False
                     await self.client.close()
             
             else:

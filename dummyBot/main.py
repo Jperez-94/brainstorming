@@ -1,13 +1,26 @@
-import os
 from bot import Bot
-from dotenv import load_dotenv
+import threading
+import time
+import os
+import sys
 
-load_dotenv()
-
-# Añadir un check de que se tiene la configuracion lista
 # Añadir control de errores
 # Añadir servicio de mensajeria enviando reporte con error al admin
+# Reset mediante comando
+# Añadir reset, desde discord.py no parece posible. Hay que bajar a la capa HTTPS o buscar otra opcion
 
-bot = Bot()
+def createBotInstance():
+    return Bot()
 
-bot.client.run(os.getenv('DISCORD_TOKEN'))
+def logInBot(bot):
+    bot.client.run(bot.environment)
+
+
+def main():
+    bot = createBotInstance()
+    thread = threading.Thread(target= logInBot, args= (bot,))
+    thread.start()
+    thread.join()
+
+if __name__ == '__main__':
+    main()
