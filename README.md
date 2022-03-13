@@ -20,7 +20,7 @@ Stay creative and lets work!
 - AdrianFSULL
 
 ## Active projects
-
+- Dummy Bot + API League of Legends functionallities
 
 ## Releases
 
