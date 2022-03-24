@@ -69,7 +69,6 @@ class DataBase():
         
         return False
             
-        
     def _readDataBase(self) -> dict:
         dataBase = dict()
         with open(self._dataBaseFile) as file:

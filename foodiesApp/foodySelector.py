@@ -1,21 +1,21 @@
 from parserFoody import *
 import random
 
-def getRandomFoody() -> DataFrame:
-    database = DataBase()
-    numOfFoody = database.getNumberOfEntryes()
-    random.seed(1)
+class Foody():
+    def __init__(self) -> None:
+        self.DataBase = DataBase()
 
-    return DataFrame(database.getEntrybyKey(str(random.randint(0,numOfFoody - 1))))
+    def getRandomFoody(self) -> DataFrame:
+        numOfFoody = self.DataBase.getNumberOfEntryes()
+        random.seed(1)
 
-def saveNewFoody(dataFrame) -> None:
-    dataBase = DataBase()
-    if type(dataFrame) != DataFrame:
-        raise ex.dataFrameTypeError(type(dataFrame))
+        return DataFrame(self.DataBase.getEntrybyKey(str(random.randint(0,numOfFoody - 1))))
 
-    dataBase.setNewEntry(dataFrame)
+    def saveNewFoody(self, dataFrame) -> None:
+        if type(dataFrame) != DataFrame:
+            raise ex.dataFrameTypeError(type(dataFrame))
 
-def removeFoody(index) -> None:
-    dataBase = DataBase()
-    dataBase.removeEntry(index)
+        self.DataBase.setNewEntry(dataFrame)
 
+    def removeFoody(self, index) -> None:
+        self.DataBase.removeEntry(index)
