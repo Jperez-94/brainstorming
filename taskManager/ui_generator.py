@@ -1,86 +1,135 @@
 from tkinter import *
-from default import WindowConfig, PrincipalFrame, AddFrame, ChooseFrame
+from default import WindowConfig, PrincipalFrameConfig, AddTaskFrameConfig, AddDashboardFrameConfig
+from dashboardmanager import *
 
 
 class Main_Window():
     def __init__(self):
         self.mainwindow = Tk()
-        self._principalFrame = Frame(self.mainwindow)
-        self._addEntryFrame = Frame(self.mainwindow)
-        self._chooseFrame = Frame(self.mainwindow)
+        self.principalFrame = PrincipalFrame(self)
+        self.addTaskFrame = AddTaskFrame(self)
+        self.addDashboardFrame = AddDashBoardFrame(self)
         self.mainwindow.title(WindowConfig.mainWindowTitle)
         self.mainwindow.geometry(WindowConfig.mainWindowGeometry)
         self.mainwindow.config(
             bg = WindowConfig.mainWindowBgColor
         )
+
+        self.principalFrame.frame.pack()
+    
+    def unpackAllFrames(self):
+        self.principalFrame.frame.pack_forget()
+        self.addTaskFrame.frame.pack_forget()
+        self.addDashboardFrame.frame.pack_forget()
+
+
+class PrincipalFrame():
+    def __init__(self, MainWindow):
+        self._mainwindow = MainWindow
+        self.frame = Frame(MainWindow.mainwindow)
+        self.showButton = None
+        self.addTaskButton = None
+        self.addDashboardButton = None
+        self.checkButton = None
+
         self._configPrincipalFrame()
-        self._configAddEntryFrame()
-        self._configChooseFrame()
-        self._principalFrame.pack()
 
     def _configPrincipalFrame(self):
-        chooseButton = Button(
-            self._principalFrame,
-            text= PrincipalFrame.chooseButtonText,
-            command= lambda:(
-                self._unpackAllFrames(),
-                self._chooseFrame.pack()
-            )
-        )
-        showButton = Button(
-            self._principalFrame,
-            text = PrincipalFrame.showButtonText,
+        self.showButton = Button(
+            self.frame,
+            text = PrincipalFrameConfig.showButtonText,
             command = lambda:(
-                self._unpackAllFrames()
-            )
-        )
-        addButton = Button(
-            self._principalFrame,
-            text = PrincipalFrame.addButtonText,
-            command = lambda:(
-                self._unpackAllFrames(),
-                self._addEntryFrame.pack()
-            )
-        )
-        checkButton = Button(
-            self._principalFrame,
-            text = PrincipalFrame.checkButtonText,
-            command = lambda:(
-                self._unpackAllFrames()
+                self._mainwindow.unpackAllFrames()
             )
         )
 
-        chooseButton.pack()
-        showButton.pack()
-        addButton.pack()
-        checkButton.pack()
+        self.addTaskButton = Button(
+            self.frame,
+            text = PrincipalFrameConfig.addTaskButtonText,
+            command = lambda:(
+                self._mainwindow.unpackAllFrames(),
+                self._mainwindow.addTaskFrame.frame.pack()
+            )
+        )
 
-    def _configAddEntryFrame(self):
+        self.addDashboardButton = Button(
+            self.frame,
+            text = PrincipalFrameConfig.addDashboardButtonText,
+            command = lambda:(
+                self._mainwindow.unpackAllFrames(),
+                self._mainwindow.addDashboardFrame.frame.pack()
+            )
+        )
+
+        self.checkButton = Button(
+            self.frame,
+            text = PrincipalFrameConfig.checkButtonText,
+            command = lambda:(
+                self._mainwindow.unpackAllFrames()
+            )
+        )
+
+        self.showButton.pack()
+        self.addTaskButton.pack()
+        self.checkButton.pack()
+        self.addDashboardButton.pack()
+
+
+class AddDashBoardFrame():
+    def __init__(self, MainWindow):
+        self._mainwindow = MainWindow
+        self.frame = Frame(MainWindow.mainwindow)
+        self.addButton = None
+        self.dashBoardNameEntry = None
+        self.cancelButton = None
+
+        self._configAddDashboardFrame()
+
+    def _configAddDashboardFrame(self):
+        newDashboard = StringVar()
+        self.dashBoardNameEntry = Entry(
+            self.frame,
+            textvariable = newDashboard
+        )
+
+        self.addButton = Button(
+            self.frame,
+            text = AddDashboardFrameConfig.addButtonText,
+            command = lambda:(
+                createDashBoard(self._mainwindow, newDashboard.get())
+            )
+        )
+
+        self.cancelButton = Button(
+            self.frame,
+            text = AddDashboardFrameConfig.cancelButtonText,
+            command = lambda:(
+                self._mainwindow.unpackAllFrames(),
+                self._mainwindow.principalFrame.frame.pack()
+            )
+        )
+
+        self.dashBoardNameEntry.pack()
+        self.addButton.pack()
+        self.cancelButton.pack()
+
+
+class AddTaskFrame():
+    def __init__(self, MainWindow):
+        self._mainwindow = MainWindow
+        self.frame = Frame(MainWindow.mainwindow)
+        self.cancelButton = None
+
+        self._configAddTaskFrame()
+    
+    def _configAddTaskFrame(self):
         cancelButton = Button(
-            self._addEntryFrame,
-            text = AddFrame.cancelButtonText,
+            self.frame,
+            text = AddTaskFrameConfig.cancelButtonText,
             command = lambda:(
-                self._unpackAllFrames(),
-                self._principalFrame.pack()
+                self._mainwindow.unpackAllFrames(),
+                self._mainwindow.principalFrame.frame.pack()
             )
         )
 
         cancelButton.pack()
-    
-    def _configChooseFrame(self):
-        cancelButton = Button(
-            self._chooseFrame,
-            text = ChooseFrame.cancelButtonText,
-            command = lambda:(
-                self._unpackAllFrames(),
-                self._principalFrame.pack()
-            )
-        )
-        
-        cancelButton.pack()
-    
-    def _unpackAllFrames(self):
-        self._principalFrame.pack_forget()
-        self._addEntryFrame.pack_forget()
-        self._chooseFrame.pack_forget()
-

@@ -4,14 +4,15 @@ class WindowConfig():
     mainWindowGeometry = "200x200"
     mainWindowBgColor = "#C5C5C5"
 
-class PrincipalFrame():
-    chooseButtonText = "Select Dashboard"
+class PrincipalFrameConfig():
     showButtonText = "Show Dashboard"
-    addButtonText = "Add task"
+    addTaskButtonText = "Add task"
+    addDashboardButtonText = "Add DashBoard"
     checkButtonText = "Check task"
 
-class AddFrame():
+class AddTaskFrameConfig():
     cancelButtonText = "Cancel"
 
-class ChooseFrame():
+class AddDashboardFrameConfig():
+    addButtonText = "Añadir"
     cancelButtonText = "Cancel"
