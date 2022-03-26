@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter import ttk
 from default import WindowConfig, PrincipalFrameConfig, AddTaskFrameConfig, AddDashboardFrameConfig
 from dashboardmanager import *
 
@@ -48,6 +49,7 @@ class PrincipalFrame():
             text = PrincipalFrameConfig.addTaskButtonText,
             command = lambda:(
                 self._mainwindow.unpackAllFrames(),
+                getAllDashBoards(self._mainwindow),
                 self._mainwindow.addTaskFrame.frame.pack()
             )
         )
@@ -118,12 +120,35 @@ class AddTaskFrame():
     def __init__(self, MainWindow):
         self._mainwindow = MainWindow
         self.frame = Frame(MainWindow.mainwindow)
+        self.dashBoardList = None
+        self.newTaskEntry = None
+        self.newTaskButton = None
         self.cancelButton = None
 
         self._configAddTaskFrame()
     
     def _configAddTaskFrame(self):
-        cancelButton = Button(
+        newTask_var = StringVar()
+
+        self.dashBoardList = ttk.Combobox(
+            self.frame,
+            state = "readonly"
+        )
+
+        self.newTaskEntry = Entry(
+            self.frame,
+            textvariable = newTask_var
+        )
+
+        self.newTaskButton = Button(
+            self.frame,
+            text = AddTaskFrameConfig.addButtonText,
+            command = lambda: (
+                addTasktoDashboard(self._mainwindow, self.dashBoardList.get(), newTask_var.get())
+            )
+        )
+
+        self.cancelButton = Button(
             self.frame,
             text = AddTaskFrameConfig.cancelButtonText,
             command = lambda:(
@@ -132,4 +157,7 @@ class AddTaskFrame():
             )
         )
 
-        cancelButton.pack()
+        self.dashBoardList.pack()
+        self.newTaskEntry.pack()
+        self.newTaskButton.pack()
+        self.cancelButton.pack()
