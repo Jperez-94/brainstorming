@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter import ttk
 from default import WindowConfig, PrincipalFrameConfig, AddTaskFrameConfig, AddDashboardFrameConfig
 from dashboardmanager import *
+from parser_html import showHtlmDashBoard
 
 
 class Main_Window():
@@ -40,7 +41,7 @@ class PrincipalFrame():
             self.frame,
             text = PrincipalFrameConfig.showButtonText,
             command = lambda:(
-                self._mainwindow.unpackAllFrames()
+                showHtlmDashBoard()
             )
         )
 
