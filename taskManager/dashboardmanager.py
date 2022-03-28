@@ -36,33 +36,64 @@ def createDashBoard(windowConfig, dashBoardName):
     windowConfig.addDashboardFrame.dashBoardNameEntry.delete(0, 'end')
     windowConfig.unpackAllFrames()
     windowConfig.principalFrame.frame.pack()
-    print('Add new dashboard')
 
-def getAllDashBoards(windowConfig):
+def removeDashBoard(windowConfig, dashBoardName):
+    if dashBoardName == '':
+        print('Add detecction of only spaces name')
+        messagebox.showinfo(
+            title = PopupsConfig.warningTitle,
+            message = PopupsConfig.emptyPickDashboardMessage
+        )
+        return
+
+    dashBoard = DashBoardManager()
+    dashBoard.dashboardJson.pop(dashBoardName)
+
+    dashBoard.write_json()
+
+    windowConfig.unpackAllFrames()
+    windowConfig.principalFrame.frame.pack()
+
+def setDashBoardsOnWidget(dashboardWidget):
+    dashBoardNames = getAllDashBoards()
+    
+    if len(dashBoardNames) == 0:
+        dashboardWidget.config(
+            state = "disabled"
+        )
+        dashboardWidget.config(
+            state = "disabled"
+        )
+        return
+    else:
+        dashboardWidget.config(
+            state = "readonly"
+        )
+        dashboardWidget.config(
+            state = "normal"
+        )
+    
+    dashboardWidget.config(
+        values = dashBoardNames
+    )
+
+def getAllDashBoards() -> list():
     dashBoard = DashBoardManager()
     dashBoardNames = list()
     for key in dashBoard.dashboardJson.keys():
         dashBoardNames.append(key)
     
-    if len(dashBoardNames) == 0:
-        windowConfig.addTaskFrame.dashBoardList.config(
-            state = "disabled"
-        )
-        windowConfig.addTaskFrame.newTaskEntry.config(
-            state = "disabled"
-        )
-        return
-    else:
-        windowConfig.addTaskFrame.dashBoardList.config(
-            state = "readonly"
-        )
-        windowConfig.addTaskFrame.newTaskEntry.config(
-            state = "normal"
-        )
+    return dashBoardNames
+
+def getDashBoardTasks(dashBoardName) -> list:
+    dashBoard = DashBoardManager()
+    tasksList = list()
+
+    for task in dashBoard.dashboardJson[dashBoardName].keys():
+        tasksList.append(task)
     
-    windowConfig.addTaskFrame.dashBoardList.config(
-        values = dashBoardNames
-    )
+    return tasksList
+    
 
 def addTasktoDashboard(windowConfig, dashBoardName, newTask):
     if dashBoardName == '':
@@ -90,3 +121,31 @@ def addTasktoDashboard(windowConfig, dashBoardName, newTask):
     windowConfig.addTaskFrame.newTaskEntry.delete(0, 'end')
     windowConfig.unpackAllFrames()
     windowConfig.principalFrame.frame.pack()
+
+def removeTaskFromDashboard(windowConfig, frame):
+    dashBoardName = frame.dashBoardList.get()
+    taskName = frame.taskList.get()
+
+    if dashBoardName == '':
+        messagebox.showinfo(
+            title = PopupsConfig.warningTitle,
+            message = PopupsConfig.emptyPickDashboardMessage
+        )
+        return
+
+    elif taskName == '':
+        print('Add detecction of only spaces name')
+        messagebox.showinfo(
+            title = PopupsConfig.warningTitle,
+            message = PopupsConfig.emptyPickTaskMessage
+        )
+        return
+    
+    dashBoard = DashBoardManager()
+    dashBoard.dashboardJson[dashBoardName].pop(taskName)
+
+    dashBoard.write_json()
+
+    windowConfig.unpackAllFrames()
+    windowConfig.principalFrame.frame.pack()
+    
