@@ -1,0 +1,11 @@
+{
+    "default":{
+        "titleSize": 18,
+        "titleColor": "black",
+        "titleFont": "Notimplemented",
+        "taskSize": 12,
+        "taskColor": "grey",
+        "taskFont": "Notimplemented",
+        "taskMark": "Notimplemented"
+    }
+}

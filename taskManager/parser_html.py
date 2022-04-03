@@ -1,5 +1,6 @@
 from dashboardmanager import *
 import webbrowser
+from default import ReserveWord
 
 class Html_Parser():
     def __init__(self) -> None:
@@ -15,10 +16,10 @@ class Html_Parser():
             for dashBoard in dashBoardJson.keys():
                 htmlDashBoard += "<h2>{}</h2>\n".format(dashBoard)
                 htmlDashBoard += "<ul>\n"
-                if len(dashBoardJson[dashBoard].keys()) == 0:
+                if len(dashBoardJson[dashBoard][ReserveWord.taskListKey].keys()) == 0:
                     htmlDashBoard += "<li><h3>NO HAY TASKS DISPONIBLES</h3></li>\n"
                 else:
-                    for task in dashBoardJson[dashBoard].keys():
+                    for task in dashBoardJson[dashBoard][ReserveWord.taskListKey].keys():
                         htmlDashBoard += "<li>{}</li>\n".format(dashBoardJson[dashBoard][task])
 
                 htmlDashBoard += "</ul>\n"

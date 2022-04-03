@@ -64,6 +64,7 @@ class PrincipalFrame():
             text = PrincipalFrameConfig.addDashboardButtonText,
             command = lambda:(
                 self._mainwindow.unpackAllFrames(),
+                setAvailableConfigOnWidget(self._mainwindow.addDashboardFrame.dashBoardConfigList),
                 self._mainwindow.addDashboardFrame.frame.pack()
             )
         )
@@ -101,6 +102,7 @@ class AddDashBoardFrame():
         self.frame = Frame(MainWindow.mainwindow)
         self.addButton = None
         self.dashBoardNameEntry = None
+        self.dashBoardConfigList = None
         self.cancelButton = None
 
         self._configAddDashboardFrame()
@@ -112,11 +114,16 @@ class AddDashBoardFrame():
             textvariable = newDashboard
         )
 
+        self.dashBoardConfigList = ttk.Combobox(
+            self.frame,
+            state = "readonly"
+        )
+
         self.addButton = Button(
             self.frame,
             text = AddDashboardFrameConfig.addButtonText,
             command = lambda:(
-                createDashBoard(self._mainwindow, newDashboard.get())
+                createDashBoard(self._mainwindow, newDashboard.get(), self.dashBoardConfigList.get())
             )
         )
 
@@ -130,6 +137,7 @@ class AddDashBoardFrame():
         )
 
         self.dashBoardNameEntry.pack()
+        self.dashBoardConfigList.pack()
         self.addButton.pack()
         self.cancelButton.pack()
 

@@ -7,6 +7,10 @@ class WindowConfig():
     mainWindowGeometry = "200x200"
     mainWindowBgColor = "#C5C5C5"
 
+class ReserveWord():
+    configKey = "config"
+    taskListKey = "taskList"
+
 class PopupsConfig():
     warningTitle = "Aviso"
 
