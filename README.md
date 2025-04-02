@@ -1,6 +1,6 @@
 # Brain Storming
 
-Feel yourself welcolme to this collection of proyects proposed and develop by this group of work.
+Feel yourself welcome to this collection of proyects proposed and develop by this group of work.
 
 ---
 
